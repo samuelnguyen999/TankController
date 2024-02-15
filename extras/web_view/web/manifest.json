@@ -1,6 +1,6 @@
 {
-    "name": "web_view",
-    "short_name": "web_view",
+    "name": "tank_monitor",
+    "short_name": "tank_monitor",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
