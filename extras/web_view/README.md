@@ -2,6 +2,8 @@
 
 OAP Tank Monitor for Open Acidification.
 
+[Project Proposal](lib/reference/OAP%20Tank%20Reporting%20Web%20App%20Proposal.docx)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
