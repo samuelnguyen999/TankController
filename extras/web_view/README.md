@@ -1,6 +1,6 @@
 # web_view
 
-OAP Tank Monitor for Open Acidification Project.
+OAP Tank Monitor for Open Acidification.
 
 ## Getting Started
 
