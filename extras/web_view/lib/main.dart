@@ -13,8 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tank Monitor',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 58, 104, 183)),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 175, 175, 175),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 21, 98, 231)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Tank Monitor'),
@@ -45,6 +46,8 @@ class TankGridView extends State<MyHomePage> {
 
   String inkwell = '';
 
+  bool isHovering = false;
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -70,9 +73,9 @@ class TankGridView extends State<MyHomePage> {
               padding: const EdgeInsets.all(8),
               alignment: Alignment.topLeft,
               // Use background color to emphasize that it's a new route.
-              color: Colors.lightBlueAccent,
+              //color: Colors.lightBlueAccent,
               child: const Hero(
-                tag: 'flippers',
+                tag: 'selection',
                 child: SizedBox(
                   width: 100,
                   // child: Image.asset(
@@ -85,6 +88,10 @@ class TankGridView extends State<MyHomePage> {
         },
       ),
     );
+  }
+
+  void _onHover(int index) {
+    debugPrint("You hovered over tank $index");
   }
 
   @override
@@ -121,11 +128,19 @@ class TankGridView extends State<MyHomePage> {
                   );
                 });
               },
+              onHover: (hovering) {
+                _onHover(index);
+                setState(() => isHovering = hovering);
+              },
+              highlightColor: Colors.blue.withOpacity(0.4),
+              splashColor: const Color.fromARGB(255, 58, 104, 183),
+              // child: Hero(
+              //   tag: 'selection',
               child: Container(
                 decoration: const BoxDecoration(
                   color:
                       Color.fromARGB(138, 113, 210, 128), // color of grid items
-                  // image: DecorationImage(
+                  // // image: DecorationImage(
                   //   image: AssetImage('assets/TankIcon.png'),
                   //   fit: BoxFit.cover,
                   // ),
@@ -142,6 +157,7 @@ class TankGridView extends State<MyHomePage> {
                 ),
               ),
             );
+            // )
           },
         ),
       ),
