@@ -72,17 +72,25 @@ class TankGridView extends State<MyHomePage> {
             body: Container(
               padding: const EdgeInsets.all(8),
               alignment: Alignment.topLeft,
-              // Use background color to emphasize that it's a new route.
-              //color: Colors.lightBlueAccent,
-              child: const Hero(
-                tag: 'selection',
-                child: SizedBox(
-                  width: 100,
-                  // child: Image.asset(
-                  //   'lib/assets/tank-icon.png',
-                  // ),
+
+              child: Text(
+                "Welcome to Tank $index!!!",
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 25.0,
                 ),
               ),
+              // Use background color to emphasize that it's a new route.
+              //color: Colors.lightBlueAccent,
+              // child: const Hero(
+              //   tag: 'selection',
+              //   child: SizedBox(
+              //     width: 100,
+              //     // child: Image.asset(
+              //     //   'lib/assets/tank-icon.png',
+              //     // ),
+              //   ),
+              // ),
             ),
           );
         },
@@ -92,6 +100,44 @@ class TankGridView extends State<MyHomePage> {
 
   void _onHover(int index) {
     debugPrint("You hovered over tank $index");
+    //_dialogBuilder(context);
+  }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Basic dialog title'),
+          content: const Text(
+            'A dialog is a type of modal window that\n'
+            'appears in front of app content to\n'
+            'provide critical information, or prompt\n'
+            'for a decision to be made.',
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Disable'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Enable'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
