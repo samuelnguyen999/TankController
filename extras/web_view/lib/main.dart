@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -57,6 +56,11 @@ class TankGridView extends State<MyHomePage> {
     });
   }
 
+  // Function to be called on click
+  void _onTileClicked(int index) {
+    debugPrint("You tapped on item $index");
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called to make rerunning build methods
@@ -79,10 +83,11 @@ class TankGridView extends State<MyHomePage> {
             crossAxisSpacing: 8.0, // spacing between columns
           ),
           padding: const EdgeInsets.all(0.0), // padding around the grid
-          itemCount: 24, //items.length, // total number of items
+          itemCount: 24, //tanks.length, // total number of items
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
+                _onTileClicked(index);
                 setState(() {
                   inkwell = 'Inkwell Tapped';
                   Text(
@@ -91,8 +96,14 @@ class TankGridView extends State<MyHomePage> {
                 });
               },
               child: Container(
-                color:
-                    Color.fromARGB(255, 113, 210, 128), // color of grid items
+                decoration: const BoxDecoration(
+                  color:
+                      Color.fromARGB(138, 113, 210, 128), // color of grid items
+                  // image: DecorationImage(
+                  //   image: AssetImage('assets/TankIcon.png'),
+                  //   fit: BoxFit.cover,
+                  // ),
+                ),
                 child: Center(
                   child: Text(
                     'Tank $index + $_counter + $inkwell',
@@ -116,19 +127,3 @@ class TankGridView extends State<MyHomePage> {
     );
   }
 }
-         
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: <Widget>[
-  //           const Text(
-  //             'Hello world\nYou have clicked the button this many times:',
-  //           ),
-  //           const Text('Deliver features faster'),
-  //           const Text('Craft beautiful UIs'),
-  //           Text(
-  //             '$_counter',
-  //             style: Theme.of(context).textTheme.headlineMedium,
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  // }
