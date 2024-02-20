@@ -58,7 +58,33 @@ class TankGridView extends State<MyHomePage> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+    debugPrint("You tapped on tank $index");
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                title: Text('Tank $index Page')),
+            body: Container(
+              padding: const EdgeInsets.all(8),
+              alignment: Alignment.topLeft,
+              // Use background color to emphasize that it's a new route.
+              color: Colors.lightBlueAccent,
+              child: const Hero(
+                tag: 'flippers',
+                child: SizedBox(
+                  width: 100,
+                  // child: Image.asset(
+                  //   'lib/assets/tank-icon.png',
+                  // ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   @override
