@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -37,11 +38,13 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => TankGridView();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  //int _counter = 0;
+class TankGridView extends State<MyHomePage> {
+  int _counter = 0;
+
+  String inkwell = '';
 
   void _incrementCounter() {
     setState(() {
@@ -50,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      //_counter++;
+      _counter++;
     });
   }
 
@@ -67,61 +70,49 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4, // number of items in each row
-          mainAxisSpacing: 8.0, // spacing between rows
-          crossAxisSpacing: 8.0, // spacing between columns
-        ),
-        padding: const EdgeInsets.all(0.0), // padding around the grid
-        itemCount: 24, //items.length, // total number of items
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {},
-            // child: Ink(
-            //   width: 200,
-            //   height: 200,
-            //   color: Colors.blue,
-            // ),
-            child: Container(
-              color: Color.fromARGB(255, 113, 210, 128), // color of grid items
-              child: Center(
-                child: Text(
-                  'Tank $index', //items[index],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4, // number of items in each row
+            mainAxisSpacing: 8.0, // spacing between rows
+            crossAxisSpacing: 8.0, // spacing between columns
+          ),
+          padding: const EdgeInsets.all(0.0), // padding around the grid
+          itemCount: 24, //items.length, // total number of items
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  inkwell = 'Inkwell Tapped';
+                  Text(
+                    inkwell,
+                  );
+                });
+              },
+              child: Container(
+                color:
+                    Color.fromARGB(255, 113, 210, 128), // color of grid items
+                child: Center(
+                  child: Text(
+                    'Tank $index + $_counter + $inkwell',
+                    //items[index],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
-      )
-          // child: GridView.count(
-          //   crossAxisCount: 4,
-          //   children: List.generate(
-          //     24,
-          //     (index) {
-          //       return Container(
-          //         color: Color.fromARGB(255, 113, 210, 128),
-          //         margin: const EdgeInsets.all(10),
-          //         child: Center(
-          //           child: Text(
-          //             'Tank $index',
-          //             style: const TextStyle(
-          //               color: Colors.white,
-          //               fontSize: 25,
-          //             ),
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-          ),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
@@ -140,10 +131,4 @@ class _MyHomePageState extends State<MyHomePage> {
   //         ],
   //       ),
   //     ),
-  //     floatingActionButton: FloatingActionButton(
-  //       onPressed: _incrementCounter,
-  //       tooltip: 'Increment',
-  //       child: const Icon(Icons.add),
-  //     ), // This trailing comma makes auto-formatting nicer for build methods.
-  //   );
   // }
