@@ -62,7 +62,7 @@ class TankGridView extends State<MyHomePage> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    debugPrint("You tapped on tank $index");
+    debugPrint("You clicked on tank $index");
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (context) {
@@ -70,105 +70,114 @@ class TankGridView extends State<MyHomePage> {
               appBar: AppBar(
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                   title: Text('Tank $index Page')),
-              body: Container(
-                // Use background color to emphasize that it's a new route.
-                //color: Colors.lightBlueAccent,
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.topLeft,
-
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: const Text(
-                        '1625 Main Street',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      subtitle: const Text('My City, CA 99984'),
-                      leading: Icon(
-                        Icons.restaurant_menu,
-                        color: Colors.blue[500],
-                      ),
-                    ),
-                    const Divider(),
-                    ListTile(
-                      title: const Text(
-                        '(408) 555-1212',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      leading: Icon(
-                        Icons.contact_phone,
-                        color: Colors.blue[500],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text('costa@example.com'),
-                      leading: Icon(
-                        Icons.contact_mail,
-                        color: Colors.blue[500],
-                      ),
-                    ),
-                    Text(
-                      "Variable Graph of tank $index",
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      height: MediaQuery.of(context).size.width * 0.95 * 0.65,
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent),
-                        //color: Colors.red,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: LineChart(
-                        LineChartData(
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: const [
-                                FlSpot(0, 4),
-                                FlSpot(1, 7),
-                                FlSpot(2, 2),
-                                FlSpot(3, 9),
-                                FlSpot(4, 5),
-                                FlSpot(5, 10),
-                                FlSpot(6, 1),
-                                FlSpot(7, 4),
-                                FlSpot(8, 9),
-                                FlSpot(9, 8),
-                                FlSpot(10, 3),
-                              ],
-                              isCurved: true,
-                              dotData: const FlDotData(show: true),
-                              color: Colors.blue,
-                              barWidth: 5,
-                              belowBarData: BarAreaData(
-                                  show: true,
-                                  color: Colors.black.withOpacity(
-                                    0.7,
-                                  )),
-                            ),
-                          ],
-                          minX: 0,
-                          maxX: 10,
-                          minY: 0,
-                          maxY: 10,
-                          backgroundColor: Colors.white,
+              body: SingleChildScrollView(
+                child: Container(
+                  // Use background color to emphasize that it's a new route.
+                  //color: Colors.lightBlueAccent,
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: const Text(
+                          '1625 Main Street',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        subtitle: const Text('My City, CA 99984'),
+                        leading: Icon(
+                          Icons.restaurant_menu,
+                          color: Colors.blue[500],
                         ),
                       ),
-                    ),
-                  ],
-                  // child: const Hero(
-                  //   tag: 'selection',
-                  //   child: SizedBox(
-                  //     width: 100,
-                  //     // child: Image.asset(
-                  //     //   'lib/assets/tank-icon.png',
-                  //     // ),
-                  //   ),
-                  // ),
+                      const Divider(),
+                      ListTile(
+                        title: const Text(
+                          '(408) 555-1212',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        leading: Icon(
+                          Icons.contact_phone,
+                          color: Colors.blue[500],
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text('costa@example.com'),
+                        leading: Icon(
+                          Icons.contact_mail,
+                          color: Colors.blue[500],
+                        ),
+                      ),
+                      Text(
+                        "Variable Graph of tank $index",
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        height: MediaQuery.of(context).size.width * 0.95 * 0.65,
+                        //margin: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blueAccent),
+                          //color: Colors.red,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: LineChart(
+                          LineChartData(
+                            //lineTouchData:LineTouchData(touchTooltipData: LineTouchTooltipData(getTooltipItems:))
+                            lineBarsData: [
+                              LineChartBarData(
+                                spots: const [
+                                  FlSpot(0, 4),
+                                  FlSpot(1, 7),
+                                  FlSpot(2, 2),
+                                  FlSpot(3, 9),
+                                  FlSpot(4, 5),
+                                  FlSpot(5, 10),
+                                  FlSpot(6, 1),
+                                  FlSpot(7, 4),
+                                  FlSpot(8, 9),
+                                  FlSpot(9, 8),
+                                  FlSpot(10, 3),
+                                ],
+                                isCurved: true,
+                                dotData: const FlDotData(show: true),
+                                color: Colors.blue,
+                                barWidth: 3,
+                                belowBarData: BarAreaData(
+                                  show: true,
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomLeft,
+                                    end: Alignment.topRight,
+                                    colors: <Color>[
+                                      Colors.cyan,
+                                      Colors.green.withOpacity(0.4)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                            minX: 0,
+                            maxX: 10,
+                            minY: 0,
+                            maxY: 10,
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                    // child: const Hero(
+                    //   tag: 'selection',
+                    //   child: SizedBox(
+                    //     width: 100,
+                    //     // child: Image.asset(
+                    //     //   'lib/assets/tank-icon.png',
+                    //     // ),
+                    //   ),
+                    // ),
+                  ),
                 ),
               ));
         },
@@ -264,7 +273,7 @@ class TankGridView extends State<MyHomePage> {
                 decoration: const BoxDecoration(
                   color:
                       Color.fromARGB(138, 113, 210, 128), // color of grid items
-                  // // image: DecorationImage(
+                  //  image: DecorationImage(
                   //   image: AssetImage('assets/TankIcon.png'),
                   //   fit: BoxFit.cover,
                   // ),
