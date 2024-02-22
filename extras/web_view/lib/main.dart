@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,8 +15,8 @@ class MyApp extends StatelessWidget {
       title: 'Tank Monitor',
       theme: ThemeData(
         scaffoldBackgroundColor: const Color.fromARGB(255, 175, 175, 175),
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 21, 98, 231)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 21, 98, 231)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Tank Monitor'),
@@ -107,10 +108,55 @@ class TankGridView extends State<MyHomePage> {
                       ),
                     ),
                     Text(
-                      "Welcome to Tank $index!!!",
+                      "Variable Graph of tank $index",
                       style: const TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 25.0,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      height: MediaQuery.of(context).size.width * 0.95 * 0.65,
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueAccent),
+                        //color: Colors.red,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: LineChart(
+                        LineChartData(
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: const [
+                                FlSpot(0, 4),
+                                FlSpot(1, 7),
+                                FlSpot(2, 2),
+                                FlSpot(3, 9),
+                                FlSpot(4, 5),
+                                FlSpot(5, 10),
+                                FlSpot(6, 1),
+                                FlSpot(7, 4),
+                                FlSpot(8, 9),
+                                FlSpot(9, 8),
+                                FlSpot(10, 3),
+                              ],
+                              isCurved: true,
+                              dotData: const FlDotData(show: true),
+                              color: Colors.blue,
+                              barWidth: 5,
+                              belowBarData: BarAreaData(
+                                  show: true,
+                                  color: Colors.black.withOpacity(
+                                    0.7,
+                                  )),
+                            ),
+                          ],
+                          minX: 0,
+                          maxX: 10,
+                          minY: 0,
+                          maxY: 10,
+                          backgroundColor: Colors.white,
+                        ),
                       ),
                     ),
                   ],
