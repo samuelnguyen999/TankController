@@ -67,29 +67,19 @@ class DataLog {
       this.kd);
 }
 
-class Word {
-  int id;
-  String word;
-  int frequency;
-
-  Word();
-
-  // convenience constructor to create a Word object
-  Word.fromMap(Map<String, dynamic> map) {
-    id = map[columnId];
-    word = map[columnWord];
-    frequency = map[columnFrequency];
-  }
-}
-
 class TankGridView extends State<MyHomePage> {
   int _counter = 0;
-
   String inkwell = '';
-
   bool isHovering = false;
-
   Offset translate = Offset(0, 0);
+
+  final log = DataLog('time', 1, 'currentTemperatureString', 'thermalTarget',
+      'currentPhString', 'pHTarget', 2, 'kp', 'ki', 'kd');
+
+  Map<String, dynamic> map = {
+    //   'time' : log.time,
+    //   'tankId' : log.tankId,
+  };
 
   void _incrementCounter() {
     setState(() {
