@@ -49,6 +49,8 @@ class TankGridView extends State<MyHomePage> {
 
   bool isHovering = false;
 
+  Offset translate = Offset(0, 0);
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -264,12 +266,22 @@ class TankGridView extends State<MyHomePage> {
               onHover: (hovering) {
                 _onHover(index);
                 setState(() => isHovering = hovering);
+                if (hovering) {
+                  setState(() {
+                    // translate = Offset(10, 10);
+                  });
+                } else {
+                  setState(() {
+                    // translate = Offset(0, 0);
+                  });
+                }
               },
               highlightColor: Colors.blue.withOpacity(0.4),
               splashColor: const Color.fromARGB(255, 58, 104, 183),
               // child: Hero(
               //   tag: 'selection',
-              child: Container(
+              child: AnimatedContainer(
+                duration: const Duration(seconds: 1),
                 decoration: const BoxDecoration(
                   color:
                       Color.fromARGB(138, 113, 210, 128), // color of grid items
@@ -278,6 +290,8 @@ class TankGridView extends State<MyHomePage> {
                   //   fit: BoxFit.cover,
                   // ),
                 ),
+                // child: Transform.translate(
+                //   offset: translate,
                 child: Center(
                   child: Text(
                     'Tank $index + $_counter + $inkwell',
@@ -288,6 +302,7 @@ class TankGridView extends State<MyHomePage> {
                     ),
                   ),
                 ),
+                // ),
               ),
             );
             // )
