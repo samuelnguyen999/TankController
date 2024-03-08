@@ -1,42 +1,20 @@
 import 'package:flutter/material.dart';
-//import 'package:TankController/extras/web_view/lib/view/home_page.dart';
 import 'package:fl_chart/fl_chart.dart';
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => TankGridView();
-}
+import 'package:web_view/data_log.dart';
+import 'package:web_view/main.dart';
 
 class TankGridView extends State<MyHomePage> {
-  int _counter = 0;
-
   String inkwell = '';
-
   bool isHovering = false;
+  Offset translate = const Offset(0, 0);
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final log = DataLog('time', 1, 'currentTemperatureString', 'thermalTarget',
+      'currentPhString', 'pHTarget', 2, 'kp', 'ki', 'kd');
+
+  Map<String, dynamic> map = {
+    //   'time' : log.time,
+    //   'tankId' : log.tankId,
+  };
 
   // Function to be called on click
   void _onTileClicked(int index) {
@@ -56,6 +34,64 @@ class TankGridView extends State<MyHomePage> {
                   alignment: Alignment.topLeft,
                   child: Column(
                     children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        //height: MediaQuery.of(context).size.width * 0.95 * 0.65,
+                        //margin: const EdgeInsets.all(25.0),
+                        padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blueAccent),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Table(
+                          border: TableBorder.all(
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary),
+                          children: [
+                            TableRow(children: [
+                              const Text('Time'),
+                              Text('time of tank $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('Tank ID'),
+                              Text('tankID of tank $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('Current Temperature'),
+                              Text('currentTemperatureString of $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('Thermal Target'),
+                              Text('Thermal Target of $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('Current pH'),
+                              Text('currentPhString of $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('pH Target'),
+                              Text('pHTarget of $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('On Time'),
+                              Text('onTime (millis() / 1000) of $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('KP (Proportional gain)'),
+                              Text('kp of $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('KI (Integral gain)'),
+                              Text('ki of $index'),
+                            ]),
+                            TableRow(children: [
+                              const Text('KD (Derivative gain)'),
+                              Text('kd of $index'),
+                            ])
+                          ],
+                        ),
+                      ),
                       ListTile(
                         title: const Text(
                           '1625 Main Street',
@@ -207,26 +243,15 @@ class TankGridView extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: const Text('Tank Monitor'),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4, // number of items in each row
-            mainAxisSpacing: 8.0, // spacing between rows
-            crossAxisSpacing: 8.0, // spacing between columns
-          ),
-          padding: const EdgeInsets.all(0.0), // padding around the grid
+          gridDelegate: myGridDelegate(),
+          // padding: const EdgeInsets.all(0.0), // padding around the grid
           itemCount: 24, //tanks.length, // total number of items
           itemBuilder: (context, index) {
             return InkWell(
@@ -242,12 +267,22 @@ class TankGridView extends State<MyHomePage> {
               onHover: (hovering) {
                 _onHover(index);
                 setState(() => isHovering = hovering);
+                if (hovering) {
+                  setState(() {
+                    // translate = Offset(10, 10);
+                  });
+                } else {
+                  setState(() {
+                    // translate = Offset(0, 0);
+                  });
+                }
               },
               highlightColor: Colors.blue.withOpacity(0.4),
               splashColor: const Color.fromARGB(255, 58, 104, 183),
               // child: Hero(
               //   tag: 'selection',
-              child: Container(
+              child: AnimatedContainer(
+                duration: const Duration(seconds: 1),
                 decoration: const BoxDecoration(
                   color:
                       Color.fromARGB(138, 113, 210, 128), // color of grid items
@@ -256,9 +291,11 @@ class TankGridView extends State<MyHomePage> {
                   //   fit: BoxFit.cover,
                   // ),
                 ),
+                // child: Transform.translate(
+                //   offset: translate,
                 child: Center(
                   child: Text(
-                    'Tank $index + $_counter + $inkwell',
+                    'Tank $index + $inkwell',
                     //items[index],
                     style: const TextStyle(
                       color: Colors.white,
@@ -266,17 +303,21 @@ class TankGridView extends State<MyHomePage> {
                     ),
                   ),
                 ),
+                // ),
               ),
             );
             // )
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    );
+  }
+
+  SliverGridDelegateWithFixedCrossAxisCount myGridDelegate() {
+    return const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 4, // number of items in each row
+      mainAxisSpacing: 8.0, // spacing between rows
+      crossAxisSpacing: 8.0, // spacing between columns
     );
   }
 }
