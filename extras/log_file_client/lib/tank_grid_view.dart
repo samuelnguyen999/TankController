@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart' as http;
-import 'package:web_view/data_log.dart';
-import 'package:web_view/main.dart';
+import 'package:log_file_client/data_log.dart';
+import 'package:log_file_client/main.dart';
 
 class TankGridView extends State<MyHomePage> {
   String inkwell = '';

@@ -1,6 +1,6 @@
 {
-    "name": "tank_monitor",
-    "short_name": "tank_monitor",
+    "name": "log_file_client",
+    "short_name": "log_file_client",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
