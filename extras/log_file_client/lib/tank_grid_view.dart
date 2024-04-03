@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart' as http;
@@ -13,8 +15,8 @@ class TankGridView extends State<MyHomePage> {
   Offset translate = const Offset(0, 0);
   //List<List<String>> _data = [];
 
-  // get https data and convert into list
-  Future<List<String>> getData(String path) async {
+  // get https data from choice of log and convert into tsv list
+  Future<List<String>> _getData(String path) async {
     var url = Uri.https('oap.cs.wallawalla.edu', path);
     http.Response response = await http.get(url);
     debugPrint('Response status: ${response.statusCode}');
@@ -28,7 +30,8 @@ class TankGridView extends State<MyHomePage> {
     // return sampleData;
   }
 
-  Future<List<String>> getIndex() async {
+  // get index html will log list
+  Future<List<String>> _getIndex() async {
     var url = Uri.https('oap.cs.wallawalla.edu', '/logs/index.html');
     http.Response response = await http.get(url);
     debugPrint('Response status: ${response.statusCode}');
@@ -41,13 +44,11 @@ class TankGridView extends State<MyHomePage> {
         .getElementsByTagName("li")
         .map((e) => e.children[0].innerHtml)
         .toList();
-
-    debugPrint(listItems.toList().toString());
-
+    //debugPrint(listItems.toList().toString());
     return listItems;
   }
 
-  // Function to be called on grid tile click
+  // Grid selection function making navigation for more on that log
   void _onTileClicked(String path) {
     debugPrint("You clicked on log at $path");
     Navigator.of(context).push(
@@ -57,16 +58,16 @@ class TankGridView extends State<MyHomePage> {
               appBar: AppBar(
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                   title: Text('Tank $path Page')),
-              body: myFutureBuilder(context, path));
+              body: _logBodyDisplay(context, path));
         },
       ),
     );
   }
 
   // Body of selected tile
-  FutureBuilder<dynamic> myFutureBuilder(BuildContext context, String path) {
+  FutureBuilder<dynamic> _logBodyDisplay(BuildContext context, String path) {
     return FutureBuilder<dynamic>(
-      future: getData(path),
+      future: _getData(path),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return Container(
@@ -155,7 +156,7 @@ class TankGridView extends State<MyHomePage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: myTable(context, path),
+                child: _myTable(context, path),
               ),
               ListTile(
                 title: const Text(
@@ -203,7 +204,7 @@ class TankGridView extends State<MyHomePage> {
                   //color: Colors.red,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: myChart(),
+                child: _myChart(),
               ),
             ]),
           );
@@ -214,7 +215,8 @@ class TankGridView extends State<MyHomePage> {
     );
   }
 
-  Table myTable(BuildContext context, String path) {
+  // Main display as table for tsv
+  Table _myTable(BuildContext context, String path) {
     return Table(
       border:
           TableBorder.all(color: Theme.of(context).colorScheme.inversePrimary),
@@ -263,7 +265,8 @@ class TankGridView extends State<MyHomePage> {
     );
   }
 
-  LineChart myChart() {
+  // Important data fields as chart visualizer
+  LineChart _myChart() {
     return LineChart(
       LineChartData(
         //lineTouchData:LineTouchData(touchTooltipData: LineTouchTooltipData(getTooltipItems:))
@@ -305,11 +308,13 @@ class TankGridView extends State<MyHomePage> {
     );
   }
 
+  // Function monitoring hovering over a grid tile
   void _onHover(int index) {
     // debugPrint("You hovered over tank $index");
     //_dialogBuilder(context);
   }
 
+  // Dialog pop up use to be determined
   Future<void> _dialogBuilder(BuildContext context) {
     return showDialog<void>(
       context: context,
@@ -356,7 +361,7 @@ class TankGridView extends State<MyHomePage> {
       ),
       body: Center(
         child: FutureBuilder(
-          future: getIndex(),
+          future: _getIndex(),
           builder:
               (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
             if (snapshot.hasError) {
