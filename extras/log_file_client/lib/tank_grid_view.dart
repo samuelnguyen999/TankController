@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:log_file_client/log_file_view.dart';
 import 'package:log_file_client/main.dart';
 import 'package:log_file_client/tank_list.dart';
 
@@ -18,6 +19,15 @@ class TankGridView extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen width
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Set the desired width of each grid item
+    const gridItemWidth = 200;
+
+    // Calculate the number of grid items per row
+    final crossAxisFlex = (screenWidth / gridItemWidth).floor();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -32,16 +42,25 @@ class TankGridView extends State<MyHomePage> {
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
+              final paths = snapshot.data;
               return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisFlex,
                 ),
-                itemCount: snapshot.data.length,
+                itemCount: paths?.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    key: ValueKey('tank-card-$index'),
-                    child: Center(
-                      child: Text(snapshot.data[index].name),
+                  return InkWell(
+                    onTap: () {
+                      onTileClicked(context, paths[index].name);
+                    },
+                    highlightColor: Colors.blue.withOpacity(0.4),
+                    splashColor: const Color.fromARGB(255, 58, 104, 183),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Card(
+                      key: ValueKey('tank-card-$index'),
+                      child: Center(
+                        child: Text(snapshot.data[index].name),
+                      ),
                     ),
                   );
                 },
